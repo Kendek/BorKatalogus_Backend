@@ -1,0 +1,38 @@
+﻿using Microsoft.EntityFrameworkCore;
+using WinellyApi.Models;
+
+namespace WinellyApi.Data
+{
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        {
+            
+        }
+
+        public DbSet<Wine> Wines { get; set; }
+        public DbSet<Winery> Wineries { get; set; }
+        public DbSet<Grape> Grapes { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Wine_GrapeConnection> Wine_GrapeConnections { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Wine_GrapeConnection>(x => x.HasKey(k => new { k.WineId, k.GrapeId }));
+
+            builder.Entity<Wine_GrapeConnection>()
+                .HasOne(x => x.Wine)
+                .WithMany(x => x.Wine_GrapeConnections)
+                .HasForeignKey(x => x.WineId);
+
+            builder.Entity<Wine_GrapeConnection>()
+                .HasOne(x => x.Grape)
+                .WithMany(x => x.Wine_GrapeConnections)
+                .HasForeignKey(x => x.GrapeId);
+        }
+
+    }
+}
