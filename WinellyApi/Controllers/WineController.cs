@@ -46,5 +46,27 @@ namespace WinellyApi.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetWineById), new { id = wineModel.Id }, wineModel.ToWineDto());
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, UpdateWineRequestDto updateDto)
+        {
+            var wineModel = _context.Wines.FirstOrDefault(x => x.Id == id);
+            if(wineModel == null)
+            {
+                return NotFound();
+            }
+
+            wineModel.Name = updateDto.Name;
+            wineModel.Type = updateDto.Type;
+            wineModel.Year = updateDto.Year;
+            wineModel.Price = updateDto.Price;
+            wineModel.AlcoholContent = updateDto.AlcoholContent;
+            wineModel.WineryId = updateDto.WineryId;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(wineModel.ToWineDto());
+        }
     }
 }
