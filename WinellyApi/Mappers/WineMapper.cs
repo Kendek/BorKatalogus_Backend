@@ -19,7 +19,7 @@ namespace WinellyApi.Mappers
             };
         }
 
-        public static Wine ToWineFromCreateDTO(this CreateWineRequestDto wineDto)
+        public static Wine ToWineFromCreateDTO(this CreateWineRequestDto wineDto, int wineryId)
         {
             return new Wine
             {
@@ -28,7 +28,18 @@ namespace WinellyApi.Mappers
                 Year = wineDto.Year,
                 Price = wineDto.Price,
                 AlcoholContent = wineDto.AlcoholContent,
-                WineryId = wineDto.WineryId,
+                WineryId = wineryId,
+            };
+        }
+        public static Wine ToWineFromUpdateDTO(this UpdateWineRequestDto wineDto)
+        {
+            return new Wine
+            {
+                Name = wineDto.Name,
+                Type = wineDto.Type,
+                Year = wineDto.Year,
+                Price = wineDto.Price,
+                AlcoholContent = wineDto.AlcoholContent,
             };
         }
     }

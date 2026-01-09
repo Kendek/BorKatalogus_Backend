@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WinellyApi.Data;
 
 namespace WinellyApi
@@ -19,6 +20,11 @@ namespace WinellyApi
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson(options => { 
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
 
             var app = builder.Build();
 

@@ -6,7 +6,6 @@
         public string Type { get; set; }
         public int Year { get; set; }
         public decimal Price { get; set; }
-        public int AlcoholContent { get; set; }
-        public int WineryId { get; set; }
+        public double AlcoholContent { get; set; }
     }
 }

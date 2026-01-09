@@ -20,15 +20,15 @@ namespace WinellyApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetWineries()
         {
-            var wineries = await _context.Wineries.ToListAsync();
+            var wineries = await _context.Wineries.Include(x => x.Wines).ToListAsync();
             var wineriesDto = wineries.Select(winery => winery.ToWineryDto());
-            return Ok(wineries);
+            return Ok(wineriesDto);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetWineryById(int id)
         {
-            var winery = await _context.Wineries.FindAsync(id);
+            var winery = await _context.Wineries.Include(x => x.Wines).FirstOrDefaultAsync(x => x.Id == id);
             if (winery == null)
             {
                 return NotFound();

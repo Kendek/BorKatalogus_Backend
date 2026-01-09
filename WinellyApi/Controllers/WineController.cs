@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WinellyApi.Data;
 using WinellyApi.DTOs.Wine;
+using WinellyApi.DTOs.Winery;
 using WinellyApi.Mappers;
 
 namespace WinellyApi.Controllers
@@ -35,18 +36,22 @@ namespace WinellyApi.Controllers
             return Ok(wine.ToWineDto());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateWine([FromBody] CreateWineRequestDto wineDto)
+        [HttpPost("{wineryId}")]
+        public async Task<IActionResult> CreateWine([FromRoute] int wineryId, CreateWineRequestDto wineDto)
         {
-            var winery = await _context.Wineries.FindAsync(wineDto.WineryId);
-            if (winery == null) return BadRequest("Invalid WineryId.");
+            if (await _context.Wines.FirstOrDefaultAsync(x => x.Id == wineryId) == null)
+            {
+                return BadRequest("Invalid WineryId.");
+            }
 
-            var wineModel = wineDto.ToWineFromCreateDTO();
-            wineModel.Winery = winery;
+            var wineModel = wineDto.ToWineFromCreateDTO(wineryId);
             await _context.Wines.AddAsync(wineModel);
             await _context.SaveChangesAsync();
+
             return CreatedAtAction(nameof(GetWineById), new { id = wineModel.Id }, wineModel.ToWineDto());
         }
+
+ 
 
         [HttpPut]
         [Route("{id}")]
@@ -57,13 +62,13 @@ namespace WinellyApi.Controllers
             {
                 return NotFound();
             }
+            updateDto.ToWineFromUpdateDTO();
 
             wineModel.Name = updateDto.Name;
             wineModel.Type = updateDto.Type;
             wineModel.Year = updateDto.Year;
             wineModel.Price = updateDto.Price;
             wineModel.AlcoholContent = updateDto.AlcoholContent;
-            wineModel.WineryId = updateDto.WineryId;
 
             await _context.SaveChangesAsync();
 
@@ -77,7 +82,7 @@ namespace WinellyApi.Controllers
             var wineModel = await _context.Wines.FirstOrDefaultAsync(x => x.Id == id);
             if(wineModel == null)
             {
-                return NotFound();
+                return NotFound("Comment doesn't exist");
             }
 
             _context.Wines.Remove(wineModel);

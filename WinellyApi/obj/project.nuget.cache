@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "3p94YVg4x/s=",
+  "dgSpecHash": "e3I/MOlDaUk=",
   "success": true,
   "projectFilePath": "C:\\Programozas\\2025-26 susu\\Vizsgaremek\\Vizsgaremek-MKK\\WinellyApi\\WinellyApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\10.0.1\\microsoft.aspnetcore.jsonpatch.10.0.1.nupkg.sha512",
+    "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\10.0.1\\microsoft.aspnetcore.mvc.newtonsoftjson.10.0.1.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.0\\microsoft.aspnetcore.openapi.10.0.0.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.build\\17.7.2\\microsoft.build.17.7.2.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.build.framework\\17.14.28\\microsoft.build.framework.17.14.28.nupkg.sha512",
@@ -31,6 +33,7 @@
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.openapi\\2.3.0\\microsoft.openapi.2.3.0.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\Kukola Kende\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.11\\sqlitepclraw.bundle_e_sqlite3.2.1.11.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\sqlitepclraw.core\\2.1.11\\sqlitepclraw.core.2.1.11.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.11\\sqlitepclraw.lib.e_sqlite3.2.1.11.nupkg.sha512",

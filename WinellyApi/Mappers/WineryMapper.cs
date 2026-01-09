@@ -14,6 +14,7 @@ namespace WinellyApi.Mappers
                 Region = wineryModel.Region,
                 Country = wineryModel.Country,
                 EstablishedYear = wineryModel.EstablishedYear,
+                Wines = wineryModel.Wines.Select(w => w.ToWineDto()).ToList(),
             };
         }
 
