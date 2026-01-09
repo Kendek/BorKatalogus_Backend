@@ -36,7 +36,7 @@ namespace WinellyApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateWineRequestDto wineDto)
+        public async Task<IActionResult> CreateWine([FromBody] CreateWineRequestDto wineDto)
         {
             var winery = await _context.Wineries.FindAsync(wineDto.WineryId);
             if (winery == null) return BadRequest("Invalid WineryId.");
@@ -50,7 +50,7 @@ namespace WinellyApi.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, UpdateWineRequestDto updateDto)
+        public async Task<IActionResult> UpdateWine([FromRoute] int id, UpdateWineRequestDto updateDto)
         {
             var wineModel = await _context.Wines.FirstOrDefaultAsync(x => x.Id == id);
             if(wineModel == null)
@@ -72,7 +72,7 @@ namespace WinellyApi.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> DeleteWine([FromRoute] int id)
         {
             var wineModel = await _context.Wines.FirstOrDefaultAsync(x => x.Id == id);
             if(wineModel == null)

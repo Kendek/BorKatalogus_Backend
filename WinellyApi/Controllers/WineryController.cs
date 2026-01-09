@@ -37,7 +37,7 @@ namespace WinellyApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateWineryRequestDto wineryDto)
+        public async Task<IActionResult> CreateWinery([FromBody] CreateWineryRequestDto wineryDto)
         {
             var wineryModel = wineryDto.ToWineryFromCreateDTO();
             await _context.Wineries.AddAsync(wineryModel);
@@ -47,7 +47,7 @@ namespace WinellyApi.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, UpdateWineryRequestDto updateDto)
+        public async Task<IActionResult> UpdateWinery([FromRoute] int id, UpdateWineryRequestDto updateDto)
         {
             var wineryModel = await _context.Wineries.FirstOrDefaultAsync(x => x.Id == id);
             if(wineryModel == null)
@@ -67,7 +67,7 @@ namespace WinellyApi.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> DeleteWinery([FromRoute] int id)
         {
             var wineryModel = await _context.Wineries.FirstOrDefaultAsync(x => x.Id == id);
             if(wineryModel == null)
