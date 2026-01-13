@@ -1,4 +1,5 @@
-﻿using WinellyApi.Models;
+﻿using WinellyApi.DTOs.Wine;
+using WinellyApi.Models;
 
 namespace WinellyApi.DTOs.Grape
 {
@@ -8,5 +9,6 @@ namespace WinellyApi.DTOs.Grape
         public string Name { get; set; }
         public string Color { get; set; }
         public string Taste { get; set; }
+        public List<WineDto> Wines { get; set; }
     }
 }

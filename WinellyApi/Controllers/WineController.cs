@@ -32,7 +32,7 @@ namespace WinellyApi.Controllers
             var wine = await _context.Wines.Include(w => w.Wine_GrapeConnections).ThenInclude(wg => wg.Grape).FirstOrDefaultAsync(x => x.Id == id);
             if (wine == null)
             {
-                return NotFound();
+                return NotFound("Invalid WineId.");
             }
             return Ok(wine.ToWineDto());
         }
@@ -58,7 +58,7 @@ namespace WinellyApi.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateWine([FromRoute] int id, UpdateWineRequestDto updateDto)
         {
-            var wineModel = await _context.Wines.Include(x => x.Wine_GrapeConnections).FirstOrDefaultAsync(x => x.Id == id);
+            var wineModel = await _context.Wines.Include(x => x.Wine_GrapeConnections).ThenInclude(x => x.Grape).FirstOrDefaultAsync(x => x.Id == id);
             if(wineModel == null)
             {
                 return NotFound();
@@ -70,7 +70,7 @@ namespace WinellyApi.Controllers
             wineModel.Price = updateDto.Price;
             wineModel.AlcoholContent = updateDto.AlcoholContent;
             
-            wineModel.Wine_GrapeConnections.Clear();
+            wineModel.Wine_GrapeConnections.Clear();    //Ki kellen iktatni és egy külön function-ben megoldani
             foreach (var grapeId in updateDto.GrapeIds)
             {
                 wineModel.Wine_GrapeConnections.Add(
