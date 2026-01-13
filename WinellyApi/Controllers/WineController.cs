@@ -88,7 +88,7 @@ namespace WinellyApi.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> DeleteWine([FromRoute] int id)
+        public async Task<IActionResult> DeleteWine([FromRoute] int id) //Kell még kaszkád báttya
         {
             var wineModel = await _context.Wines.FirstOrDefaultAsync(x => x.Id == id);
             if(wineModel == null)
