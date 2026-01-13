@@ -4,6 +4,7 @@ using WinellyApi.Data;
 using WinellyApi.DTOs.Wine;
 using WinellyApi.DTOs.Winery;
 using WinellyApi.Mappers;
+using WinellyApi.Models;
 
 namespace WinellyApi.Controllers
 {
@@ -57,13 +58,28 @@ namespace WinellyApi.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateWine([FromRoute] int id, UpdateWineRequestDto updateDto)
         {
-            var wineModel = await _context.Wines.FirstOrDefaultAsync(x => x.Id == id);
+            var wineModel = await _context.Wines.Include(x => x.Wine_GrapeConnections).FirstOrDefaultAsync(x => x.Id == id);
             if(wineModel == null)
             {
                 return NotFound();
             }
 
-            wineModel = updateDto.ToWineFromUpdateDTO();
+            wineModel.Name = updateDto.Name;
+            wineModel.Type = updateDto.Type;
+            wineModel.Year = updateDto.Year;
+            wineModel.Price = updateDto.Price;
+            wineModel.AlcoholContent = updateDto.AlcoholContent;
+            
+            wineModel.Wine_GrapeConnections.Clear();
+            foreach (var grapeId in updateDto.GrapeIds)
+            {
+                wineModel.Wine_GrapeConnections.Add(
+                    new Wine_GrapeConnection
+                    {
+                        WineId = id,
+                        GrapeId = grapeId
+                    });
+            }
 
             await _context.SaveChangesAsync();
 

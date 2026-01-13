@@ -53,16 +53,5 @@ namespace WinellyApi.Mappers
             return wine;
 
         }
-        public static Wine ToWineFromUpdateDTO(this UpdateWineRequestDto wineDto)
-        {
-            return new Wine
-            {
-                Name = wineDto.Name,
-                Type = wineDto.Type,
-                Year = wineDto.Year,
-                Price = wineDto.Price,
-                AlcoholContent = wineDto.AlcoholContent,
-            };
-        }
     }
 }
