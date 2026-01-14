@@ -12,6 +12,6 @@ namespace WinellyApi.DTOs.Wine
         public decimal Price { get; set; }
         public double AlcoholContent { get; set; }
         public int WineryId { get; set; }
-        public List<GrapeDto> Grapes { get; set; }
+        public List<GrapeDto> Grapes { get; set; } = new();
     }
 }

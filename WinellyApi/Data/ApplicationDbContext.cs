@@ -26,12 +26,14 @@ namespace WinellyApi.Data
             builder.Entity<Wine_GrapeConnection>()
                 .HasOne(x => x.Wine)
                 .WithMany(x => x.Wine_GrapeConnections)
-                .HasForeignKey(x => x.WineId);
+                .HasForeignKey(x => x.WineId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Wine_GrapeConnection>()
                 .HasOne(x => x.Grape)
                 .WithMany(x => x.Wine_GrapeConnections)
-                .HasForeignKey(x => x.GrapeId);
+                .HasForeignKey(x => x.GrapeId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

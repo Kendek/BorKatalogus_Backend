@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using WinellyApi.Data;
 using WinellyApi.DTOs.Wine;
 using WinellyApi.DTOs.Winery;
@@ -40,7 +41,7 @@ namespace WinellyApi.Controllers
         [HttpPost("{wineryId}")]
         public async Task<IActionResult> CreateWine([FromRoute] int wineryId, CreateWineRequestDto wineDto)
         {
-            if (await _context.Wines.FirstOrDefaultAsync(x => x.Id == wineryId) == null)
+            if (await _context.Wineries.FirstOrDefaultAsync(x => x.Id == wineryId) == null)
             {
                 return BadRequest("Invalid WineryId.");
             }
@@ -49,7 +50,7 @@ namespace WinellyApi.Controllers
             await _context.Wines.AddAsync(wineModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetWineById), new { id = wineModel.Id }, wineModel.ToWineDto());
+            return CreatedAtAction(nameof(GetWineById), new { id = wineModel.Id },  wineModel.ToWineDtoWithoutGrapes());
         }
 
  
@@ -88,7 +89,7 @@ namespace WinellyApi.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> DeleteWine([FromRoute] int id) //Kell még kaszkád báttya
+        public async Task<IActionResult> DeleteWine([FromRoute] int id)
         {
             var wineModel = await _context.Wines.FirstOrDefaultAsync(x => x.Id == id);
             if(wineModel == null)

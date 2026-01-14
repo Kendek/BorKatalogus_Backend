@@ -28,6 +28,19 @@ namespace WinellyApi.Mappers
                     .ToList()
             };
         }
+        public static WineDto ToWineDtoWithoutGrapes(this Wine wineModel)
+        {
+            return new WineDto
+            {
+                Id = wineModel.Id,
+                Name = wineModel.Name,
+                Type = wineModel.Type,
+                Year = wineModel.Year,
+                Price = wineModel.Price,
+                AlcoholContent = wineModel.AlcoholContent,
+                WineryId = wineModel.WineryId,
+            };
+        }
 
         public static Wine ToWineFromCreateDTO(this CreateWineRequestDto wineDto, int wineryId)
         {
