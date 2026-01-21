@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WinellyApi.Models;
 
 namespace WinellyApi.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public ApplicationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
@@ -34,6 +36,26 @@ namespace WinellyApi.Data
                 .WithMany(x => x.Wine_GrapeConnections)
                 .HasForeignKey(x => x.GrapeId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            List<IdentityRole> roles = new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Id = "8D04DCE2-969A-435D-BBA4-DF3F325983DC",
+                    Name = "Admin",
+                    NormalizedName = "ADMIN",
+                    ConcurrencyStamp = "ADMIN-CONCURRENCY-1"
+                },
+                new IdentityRole
+                {
+                    Id = "F1F5B5E8-6C9A-4A3A-9A76-5B2D5E6C1234",
+                    Name = "User",
+                    NormalizedName = "USER",
+                    ConcurrencyStamp = "USER-CONCURRENCY-1"
+                },
+            };
+            builder.Entity<IdentityRole>().HasData(roles);
+
         }
 
     }
