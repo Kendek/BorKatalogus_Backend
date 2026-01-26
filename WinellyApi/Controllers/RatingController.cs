@@ -41,10 +41,7 @@ namespace WinellyApi.Controllers
             if(!ModelState.IsValid) return BadRequest(ModelState);
 
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return Unauthorized();
-            }
+            if (user == null) return Unauthorized();
 
             var ratingModel = ratingDto.ToRatingFromCreate(wineId);
             ratingModel.AppUserId = user.Id;
@@ -54,5 +51,22 @@ namespace WinellyApi.Controllers
 
             return CreatedAtAction(nameof(GetRatingsById), new { wineId = ratingModel.WineId }, ratingModel.ToRatingDto());
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteRating(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Unauthorized();
+
+            var ratingModel = await _context.Ratings.FirstOrDefaultAsync(x => x.Id == id);
+            if (ratingModel == null) return NotFound("Invalid id.");
+            if (ratingModel.AppUser.Id != user.Id) return Unauthorized();
+           
+            _context.Ratings.Remove(ratingModel);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+        
     }
 }
