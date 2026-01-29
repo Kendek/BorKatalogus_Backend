@@ -12,8 +12,7 @@ using WinellyApi.Data;
 using WinellyApi.Interfaces;
 using WinellyApi.Models;
 using WinellyApi.Services;
-using Microsoft.Extensions.Logging;
-using System.Linq;
+using WinellyApi.Services.GeoServices;
 
 namespace WinellyApi
 {
@@ -108,6 +107,8 @@ namespace WinellyApi
 
             builder.Services.AddScoped<ITokenService, TokenService>();
 
+            builder.Services.AddHttpClient<IGeoService, GeoService>();
+
             var app = builder.Build();
 
             // Def admin user
@@ -178,7 +179,7 @@ namespace WinellyApi
                 var createAdminResult = await userManager.CreateAsync(admin, adminPassword);
                 if (!createAdminResult.Succeeded)
                 {
-                    logger?.LogError("Failed to create admin user: {Errors}", string.Join(", ", createAdminResult.Errors.Select(e => e.Description)));
+                    logger?.LogError($"Failed to create admin user: {createAdminResult.Errors.Select(e => e.Description)}");
                     return;
                 }
             }
@@ -188,7 +189,7 @@ namespace WinellyApi
                 var addToRoleResult = await userManager.AddToRoleAsync(admin, "Admin");
                 if (!addToRoleResult.Succeeded)
                 {
-                    logger?.LogError("Failed to add admin user to role Admin: {Errors}", string.Join(", ", addToRoleResult.Errors.Select(e => e.Description)));
+                    logger?.LogError($"Failed to add admin user to role Admin: {addToRoleResult.Errors.Select(e => e.Description)}");
                 }
             }
         }

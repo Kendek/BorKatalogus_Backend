@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using WinellyApi.Data;
@@ -39,6 +40,7 @@ namespace WinellyApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateWine(CreateWineRequestDto wineDto)
         {
             if (await _context.Wineries.FirstOrDefaultAsync(x => x.Id == wineDto.WineryId) == null)
@@ -57,6 +59,7 @@ namespace WinellyApi.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateWine([FromRoute] int id, UpdateWineRequestDto updateDto)
         {
             var wineModel = await _context.Wines.Include(x => x.Wine_GrapeConnections).ThenInclude(x => x.Grape).FirstOrDefaultAsync(x => x.Id == id);
@@ -91,6 +94,7 @@ namespace WinellyApi.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteWine([FromRoute] int id)
         {
             var wineModel = await _context.Wines.FirstOrDefaultAsync(x => x.Id == id);

@@ -38,6 +38,7 @@ namespace WinellyApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateGrape([FromBody] CreateGrapeRequestDto grapeDto)
         {
             var grapeModel = grapeDto.ToGrapeFromCreateDto();
@@ -52,6 +53,7 @@ namespace WinellyApi.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteGrapeById([FromRoute]int id)
         {
             var grape = await _context.Grapes.Include(x => x.Wine_GrapeConnections).FirstOrDefaultAsync(x => x.Id == id);

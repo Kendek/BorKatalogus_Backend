@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WinellyApi.Data;
 using WinellyApi.DTOs.Wine;
 using WinellyApi.DTOs.Winery;
+using WinellyApi.Interfaces;
 using WinellyApi.Mappers;
+using WinellyApi.Services.GeoServices;
 
 namespace WinellyApi.Controllers
 {
@@ -12,9 +15,11 @@ namespace WinellyApi.Controllers
     public class WineryController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public WineryController(ApplicationDbContext context)
+        private readonly IGeoService _geoService;
+        public WineryController(ApplicationDbContext context, IGeoService geoService)
         {
             _context = context;
+            _geoService = geoService;
         }
 
         [HttpGet]
@@ -37,9 +42,11 @@ namespace WinellyApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CreateWinery([FromBody] CreateWineryRequestDto wineryDto)
         {
-            var wineryModel = wineryDto.ToWineryFromCreateDTO();
+            var geoRes = await _geoService.GetCoordinatesAsync(wineryDto.Region);
+            var wineryModel = wineryDto.ToWineryFromCreateDTO(geoRes ?? new GeoResultDto{Lon = 0, Lat = 0});
             await _context.Wineries.AddAsync(wineryModel);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetWineryById), new { id = wineryModel.Id }, wineryModel.ToWineryDto());
@@ -47,6 +54,7 @@ namespace WinellyApi.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateWinery([FromRoute] int id, UpdateWineryRequestDto updateDto)
         {
             var wineryModel = await _context.Wineries.FirstOrDefaultAsync(x => x.Id == id);
@@ -55,9 +63,13 @@ namespace WinellyApi.Controllers
                 return NotFound();
             }
 
+            var geoRes = await _geoService.GetCoordinatesAsync(updateDto.Region);
+
             wineryModel.Name = updateDto.Name;
             wineryModel.Region = updateDto.Region;
             wineryModel.Country = updateDto.Country;
+            wineryModel.Lat = geoRes.Lat;
+            wineryModel.Lon = geoRes.Lon;
             wineryModel.EstablishedYear = updateDto.EstablishedYear;
 
             await _context.SaveChangesAsync();
@@ -67,6 +79,7 @@ namespace WinellyApi.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteWinery([FromRoute] int id)
         {
             var wineryModel = await _context.Wineries.FirstOrDefaultAsync(x => x.Id == id);

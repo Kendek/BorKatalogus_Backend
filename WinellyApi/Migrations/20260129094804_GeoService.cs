@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WinellyApi.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedRoles : Migration
+    public partial class GeoService : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,8 @@ namespace WinellyApi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -75,6 +77,8 @@ namespace WinellyApi.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Region = table.Column<string>(type: "TEXT", nullable: false),
                     Country = table.Column<string>(type: "TEXT", nullable: false),
+                    Lat = table.Column<double>(type: "REAL", nullable: false),
+                    Lon = table.Column<double>(type: "REAL", nullable: false),
                     EstablishedYear = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -189,6 +193,31 @@ namespace WinellyApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RefreshToken",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TokenHash = table.Column<string>(type: "TEXT", nullable: false),
+                    Expires = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedByIp = table.Column<string>(type: "TEXT", nullable: true),
+                    Revoked = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    RevokedByIp = table.Column<string>(type: "TEXT", nullable: true),
+                    ReplacedByTokenHash = table.Column<string>(type: "TEXT", nullable: true),
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshToken", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshToken_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Wines",
                 columns: table => new
                 {
@@ -220,25 +249,27 @@ namespace WinellyApi.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Score = table.Column<int>(type: "INTEGER", nullable: false),
-                    ReviewDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    WineryId = table.Column<int>(type: "INTEGER", nullable: false),
-                    WineId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Score = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    WineId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ratings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ratings_Wineries_WineryId",
-                        column: x => x.WineryId,
-                        principalTable: "Wineries",
+                        name: "FK_Ratings_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Ratings_Wines_WineId",
                         column: x => x.WineId,
                         principalTable: "Wines",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -312,14 +343,19 @@ namespace WinellyApi.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Ratings_AppUserId",
+                table: "Ratings",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ratings_WineId",
                 table: "Ratings",
                 column: "WineId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ratings_WineryId",
-                table: "Ratings",
-                column: "WineryId");
+                name: "IX_RefreshToken_AppUserId",
+                table: "RefreshToken",
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Wine_GrapeConnections_GrapeId",
@@ -352,6 +388,9 @@ namespace WinellyApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Ratings");
+
+            migrationBuilder.DropTable(
+                name: "RefreshToken");
 
             migrationBuilder.DropTable(
                 name: "Wine_GrapeConnections");

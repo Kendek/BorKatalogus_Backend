@@ -51,7 +51,8 @@ namespace WinellyApi.Controllers
             var result = await _signinManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
             if (!result.Succeeded) return Unauthorized("Username not found and/or password incorrect.");
 
-            var jwt = _tokenService.CreateToken(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var jwt = _tokenService.CreateToken(user, roles);
 
 
             var rawRefresh = _tokenService.CreateRefreshToken();
@@ -120,7 +121,8 @@ namespace WinellyApi.Controllers
 
             SetRefreshTokenCookie(newRaw, newRefresh.Expires);
 
-            var newJwt = _tokenService.CreateToken(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var newJwt = _tokenService.CreateToken(user, roles);
 
             return Ok(new { Token = newJwt });
         }

@@ -389,6 +389,12 @@ namespace WinellyApi.Migrations
                     b.Property<int>("EstablishedYear")
                         .HasColumnType("INTEGER");
 
+                    b.Property<double>("Lat")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Lon")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");

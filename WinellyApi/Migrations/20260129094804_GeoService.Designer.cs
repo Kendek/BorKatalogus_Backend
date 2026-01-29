@@ -11,8 +11,8 @@ using WinellyApi.Data;
 namespace WinellyApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260121075943_SeedRoles")]
-    partial class SeedRoles
+    [Migration("20260129094804_GeoService")]
+    partial class GeoService
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -183,6 +183,12 @@ namespace WinellyApi.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
 
@@ -253,25 +259,68 @@ namespace WinellyApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("ReviewDate")
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Score")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<int?>("WineId")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("WineryId")
+                    b.Property<decimal>("Score")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("WineId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppUserId");
+
                     b.HasIndex("WineId");
 
-                    b.HasIndex("WineryId");
-
                     b.ToTable("Ratings");
+                });
+
+            modelBuilder.Entity("WinellyApi.Models.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedByIp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReplacedByTokenHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("Revoked")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RevokedByIp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TokenHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("WinellyApi.Models.Wine", b =>
@@ -343,6 +392,12 @@ namespace WinellyApi.Migrations
                     b.Property<int>("EstablishedYear")
                         .HasColumnType("INTEGER");
 
+                    b.Property<double>("Lat")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Lon")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -409,17 +464,28 @@ namespace WinellyApi.Migrations
 
             modelBuilder.Entity("WinellyApi.Models.Rating", b =>
                 {
-                    b.HasOne("WinellyApi.Models.Wine", null)
+                    b.HasOne("WinellyApi.Models.AppUser", "AppUser")
                         .WithMany("Ratings")
-                        .HasForeignKey("WineId");
-
-                    b.HasOne("WinellyApi.Models.Winery", "Winery")
-                        .WithMany()
-                        .HasForeignKey("WineryId")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Winery");
+                    b.HasOne("WinellyApi.Models.Wine", "Wine")
+                        .WithMany("Ratings")
+                        .HasForeignKey("WineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Wine");
+                });
+
+            modelBuilder.Entity("WinellyApi.Models.RefreshToken", b =>
+                {
+                    b.HasOne("WinellyApi.Models.AppUser", null)
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("WinellyApi.Models.Wine", b =>
@@ -450,6 +516,13 @@ namespace WinellyApi.Migrations
                     b.Navigation("Grape");
 
                     b.Navigation("Wine");
+                });
+
+            modelBuilder.Entity("WinellyApi.Models.AppUser", b =>
+                {
+                    b.Navigation("Ratings");
+
+                    b.Navigation("RefreshTokens");
                 });
 
             modelBuilder.Entity("WinellyApi.Models.Grape", b =>
