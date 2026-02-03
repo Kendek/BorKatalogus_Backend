@@ -116,6 +116,13 @@ namespace WinellyApi.Controllers
                 return NotFound("Wine doesn't exist");
             }
 
+            var imgRes =  await _imageKit.DeleteImage(wineModel.FileId ?? "");
+
+            if (imgRes == false)
+            {
+                return BadRequest("Error with the image delet service");
+            }
+
             _context.Wines.Remove(wineModel);
             await _context.SaveChangesAsync();
             return NoContent();

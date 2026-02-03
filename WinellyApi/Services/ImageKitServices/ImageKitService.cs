@@ -42,5 +42,18 @@ namespace WinellyApi.Services.ImageKitServices
                 FileId = result.fileId
             };
         }
+
+        public async Task<bool> DeleteImage(string fileId)
+        {
+            if (string.IsNullOrWhiteSpace(fileId))
+                return false;
+
+            var result = _imageKit.DeleteFile(fileId);
+
+            if (result == null)
+                return false;
+
+            return true;
+        }
     }
 }
