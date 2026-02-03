@@ -18,6 +18,8 @@ namespace WinellyApi.Mappers
                 Year = wineModel.Year,
                 Price = wineModel.Price,
                 AlcoholContent = wineModel.AlcoholContent,
+                Url = wineModel.Url,
+                FileId = wineModel.FileId,
                 WineryId = wineModel.WineryId,
                 Grapes = wineModel.Wine_GrapeConnections
                     .Select(x => new GrapeDto
@@ -41,6 +43,8 @@ namespace WinellyApi.Mappers
                 Year = wineModel.Year,
                 Price = wineModel.Price,
                 AlcoholContent = wineModel.AlcoholContent,
+                Url = wineModel.Url,
+                FileId = wineModel.FileId,
                 WineryId = wineModel.WineryId,
             };
         }

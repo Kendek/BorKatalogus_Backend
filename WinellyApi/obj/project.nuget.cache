@@ -1,15 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "WrYZsqExS5Q=",
+  "dgSpecHash": "u/0c4IWLeck=",
   "success": true,
   "projectFilePath": "C:\\Programozas\\2025-26 susu\\Vizsgaremek\\Vizsgaremek-MKK\\WinellyApi\\WinellyApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\Kukola Kende\\.nuget\\packages\\imagekit\\5.0.0\\imagekit.5.0.0.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\10.0.2\\microsoft.aspnetcore.authentication.jwtbearer.10.0.2.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\10.0.2\\microsoft.aspnetcore.identity.entityframeworkcore.10.0.2.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\10.0.2\\microsoft.aspnetcore.jsonpatch.10.0.2.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\10.0.2\\microsoft.aspnetcore.mvc.newtonsoftjson.10.0.2.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.2\\microsoft.aspnetcore.openapi.10.0.2.nupkg.sha512",
+    "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.build.framework\\18.0.2\\microsoft.build.framework.18.0.2.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.11.0\\microsoft.codeanalysis.analyzers.3.11.0.nupkg.sha512",
     "C:\\Users\\Kukola Kende\\.nuget\\packages\\microsoft.codeanalysis.common\\5.0.0\\microsoft.codeanalysis.common.5.0.0.nupkg.sha512",

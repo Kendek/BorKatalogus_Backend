@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using WinellyApi.Data;
 using WinellyApi.DTOs.Wine;
-using WinellyApi.DTOs.Winery;
+using WinellyApi.Interfaces;
 using WinellyApi.Mappers;
 using WinellyApi.Models;
 
@@ -14,10 +13,12 @@ namespace WinellyApi.Controllers
     [ApiController]
     public class WineController : ControllerBase
     {
-       private  readonly ApplicationDbContext _context;
-        public WineController(ApplicationDbContext context)
+        private  readonly ApplicationDbContext _context;
+        private readonly IImageKitService _imageKit;
+        public WineController(ApplicationDbContext context, IImageKitService imageKit)
         {
             _context = context;
+            _imageKit = imageKit;
         }
 
         [HttpGet]
@@ -41,21 +42,33 @@ namespace WinellyApi.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateWine(CreateWineRequestDto wineDto)
+        public async Task<IActionResult> CreateWine([FromForm] CreateWineRequestDto wineDto)
         {
             if (await _context.Wineries.FirstOrDefaultAsync(x => x.Id == wineDto.WineryId) == null)
             {
                 return BadRequest("Invalid WineryId.");
             }
 
+            if (wineDto.File == null)
+            {
+                return BadRequest("No file provided.");
+            }
+
+            var fileData = await _imageKit.UploadImage(wineDto.File);
+
+            if (fileData == null || string.IsNullOrEmpty(fileData.Url))
+            {
+                return StatusCode(500, "Image upload failed.");
+            }
+
             var wineModel = wineDto.ToWineFromCreateDTO();
+            wineModel.Url = fileData.Url;
+            wineModel.FileId = fileData.FileId;
             await _context.Wines.AddAsync(wineModel);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetWineById), new { id = wineModel.Id },  wineModel.ToWineDtoWithoutGrapes());
         }
-
- 
 
         [HttpPut]
         [Route("{id}")]

@@ -13,6 +13,8 @@ namespace WinellyApi.Models
         public int Year { get; set; }
         public decimal Price { get; set; }
         public double AlcoholContent { get; set; }
+        public string? Url { get; set; }
+        public string? FileId { get; set; }
         public int WineryId { get; set; }
         public Winery Winery { get; set; }
         public List<Rating> Ratings { get; set; } = new();

@@ -15,6 +15,23 @@
           }
         }
       },
+      "Imagekit/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
+          "Newtonsoft.Json": "12.0.2"
+        },
+        "compile": {
+          "lib/net7.0/Imagekit.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0/Imagekit.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.2": {
         "type": "package",
         "dependencies": {
@@ -110,6 +127,19 @@
         ],
         "build": {
           "build/Microsoft.AspNetCore.OpenApi.targets": {}
+        }
+      },
+      "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Microsoft.Build.Framework/18.0.2": {
@@ -1147,6 +1177,27 @@
         "logo.png"
       ]
     },
+    "Imagekit/5.0.0": {
+      "sha512": "Jwh8Ui13j/U9Y1eCicm88RM8Zo2tfRmwGicq7o11sM5B8RrMGWZEAfS94dPs0lD1TSaNplRw2uKZKkeVD42FsA==",
+      "type": "package",
+      "path": "imagekit/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "imagekit.5.0.0.nupkg.sha512",
+        "imagekit.nuspec",
+        "lib/net5.0/Imagekit.dll",
+        "lib/net5.0/Imagekit.xml",
+        "lib/net6.0/Imagekit.dll",
+        "lib/net6.0/Imagekit.xml",
+        "lib/net7.0/Imagekit.dll",
+        "lib/net7.0/Imagekit.xml",
+        "lib/netcoreapp3.1/Imagekit.dll",
+        "lib/netcoreapp3.1/Imagekit.xml",
+        "lib/netstandard2.0/Imagekit.dll",
+        "lib/netstandard2.0/Imagekit.xml"
+      ]
+    },
     "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.2": {
       "sha512": "UJGH1qpJgNSmDcAQQRtdUY/auztO+EJK4HHz3akdneWQ+3ladiLEMJeZOqjYiMcPf/h+MSAQq+xij+7umi7VXQ==",
       "type": "package",
@@ -1231,6 +1282,27 @@
         "lib/net10.0/Microsoft.AspNetCore.OpenApi.xml",
         "microsoft.aspnetcore.openapi.10.0.2.nupkg.sha512",
         "microsoft.aspnetcore.openapi.nuspec"
+      ]
+    },
+    "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
+      "sha512": "UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg==",
+      "type": "package",
+      "path": "microsoft.bcl.asyncinterfaces/6.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Bcl.AsyncInterfaces.dll",
+        "lib/net461/Microsoft.Bcl.AsyncInterfaces.xml",
+        "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll",
+        "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.xml",
+        "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll",
+        "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.xml",
+        "microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
+        "microsoft.bcl.asyncinterfaces.nuspec",
+        "useSharedDesignerContext.txt"
       ]
     },
     "Microsoft.Build.Framework/18.0.2": {
@@ -3394,6 +3466,7 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "Imagekit >= 5.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 10.0.2",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 10.0.2",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 10.0.2",
@@ -3457,6 +3530,10 @@
       "net10.0": {
         "targetAlias": "net10.0",
         "dependencies": {
+          "Imagekit": {
+            "target": "Package",
+            "version": "[5.0.0, )"
+          },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
             "version": "[10.0.2, )"

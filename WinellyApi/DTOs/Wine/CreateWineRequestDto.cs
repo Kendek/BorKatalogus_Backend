@@ -11,6 +11,7 @@ namespace WinellyApi.DTOs.Wine
         public int Year { get; set; }
         public decimal Price { get; set; }
         public double AlcoholContent { get; set; }
+        public IFormFile? File { get; set; }
         public int WineryId { get; set; }
         public List<int> GrapeIds { get; set; } = new();
     }

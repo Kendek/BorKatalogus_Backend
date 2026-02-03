@@ -1,3 +1,4 @@
+using Imagekit.Sdk;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using WinellyApi.Interfaces;
 using WinellyApi.Models;
 using WinellyApi.Services;
 using WinellyApi.Services.GeoServices;
+using WinellyApi.Services.ImageKitServices;
 
 namespace WinellyApi
 {
@@ -98,11 +100,17 @@ namespace WinellyApi
                 };
             });
 
+            builder.Services.AddSingleton(new ImagekitClient(
+                publicKey: builder.Configuration["ImageKit:PublicKey"],
+                privateKey: builder.Configuration["ImageKit:PrivateKey"],
+                urlEndPoint: builder.Configuration["ImageKit:UrlEndpoint"]
+            ));
 
+            builder.Services.AddScoped<IImageKitService, ImageKitService>();
 
             builder.Services.AddControllers()
                 .AddNewtonsoftJson(options => { 
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
 
             builder.Services.AddScoped<ITokenService, TokenService>();
