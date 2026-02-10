@@ -14,6 +14,7 @@ namespace WinellyApi.Mappers
                 Content = ratingModel.Content,
                 CreatedOn = ratingModel.CreatedOn,
                 CreatedBy = ratingModel.AppUser.FirstName,
+                CreatedByEmail = ratingModel.AppUser.Email,
                 WineId = ratingModel.WineId,
             };
         }

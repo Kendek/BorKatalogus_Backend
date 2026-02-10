@@ -38,6 +38,7 @@ namespace WinellyApi.Mappers
                         Content = x.Content,
                         CreatedOn = x.CreatedOn,
                         CreatedBy = x.AppUser.FirstName,
+                        CreatedByEmail = x.AppUser.Email,
                         WineId = x.WineId,
                     })
                     .ToList()

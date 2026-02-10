@@ -61,8 +61,12 @@ namespace WinellyApi.Controllers
 
             var ratingModel = await _context.Ratings.FirstOrDefaultAsync(x => x.Id == id);
             if (ratingModel == null) return NotFound("Invalid id.");
-            if (ratingModel.AppUser.Id != user.Id) return Unauthorized();
-           
+
+            if (!User.IsInRole("Admin"))
+            {
+                if (ratingModel.AppUser.Id != user.Id) return Unauthorized();
+            }
+            
             _context.Ratings.Remove(ratingModel);
             await _context.SaveChangesAsync();
             return NoContent();
