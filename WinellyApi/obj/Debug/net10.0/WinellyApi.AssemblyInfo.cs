@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WinellyApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bfb881ee7ba24ae1829855a436ceb52e6e7ed3cf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f96f0f1841f7718e90ad13b4fa4649a76ba39ae1")]
 [assembly: System.Reflection.AssemblyProductAttribute("WinellyApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WinellyApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
